@@ -1,0 +1,15 @@
+{
+  "name": "coursework_2",
+  "version": "1.0.0",
+  "description": "Coursework 2 for devops",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/kmclau208/coursework_2/"
+  },
+  "keywords": [
+    "node",
+    "docker",
+    "dockerfile"
+  ],
+  "author": "kmclau208@caledonian.ac.uk"
+}
