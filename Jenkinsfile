@@ -4,14 +4,24 @@ node {
     stage('Clone repository') {
         checkout scm
     }
+    
+   stage('Sonarqube') {
+        environment {
+            scannerHome = tool 'SonarQubeScanner'
+        }
+        steps {
+            withSonarQubeEnv('sonarqube') {
+                sh "${scannerHome}/bin/sonar-scanner"
+        }
+            timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+    }
 
-    stage("build & SonarQube analysis") {
-              node {
-                  withSonarQubeEnv('sonarqube') {
-                     sh 'sonar:sonar'
-                  }
-              }
-          }
+    stage('Build image') {
+        app = docker.build("kmclau208/coursework2")
+    }
 
     stage('Test image') {
         app.inside {
