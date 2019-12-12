@@ -5,9 +5,13 @@ node {
         checkout scm
     }
 
-    stage('Build image') {
-        app = docker.build("kmclau208/coursework2")
-    }
+    stage("build & SonarQube analysis") {
+              node {
+                  withSonarQubeEnv('My SonarQube Server') {
+                     sh 'mvn clean package sonar:sonar'
+                  }
+              }
+          }
 
     stage('Test image') {
         app.inside {
@@ -21,16 +25,4 @@ node {
             app.push("latest")
         }
     }
-    stage('Sonarqube') {
-        environment {
-            scannerHome = tool 'SonarQubeScanner'
-        }
-        withSonarQubeEnv('sonarqube') {
-          sh "${scannerHome}/bin/sonar-scanner"
-        }
-        timeout(time: 10, unit: 'MINUTES') {
-          waitForQualityGate abortPipeline: true
-        }
-    }
- }
-
+}
