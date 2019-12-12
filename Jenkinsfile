@@ -1,4 +1,3 @@
-#!groovy
 node {
     def app
 
@@ -8,9 +7,9 @@ node {
 
    stage('Sonarqube') {
         environment {
-            scannerHome = tool 'SonarQubeScanner'
+            scannerHome = tool 'sonarqube'
         }
-            withSonarQubeEnv('SonarQubeScanner') {
+            withSonarQubeEnv('sonarqube') {
                 sh "${scannerHome}/bin/sonar-scanner"
         }
             timeout(time: 10, unit: 'MINUTES') {
