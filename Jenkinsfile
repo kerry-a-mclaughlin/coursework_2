@@ -8,7 +8,7 @@ node {
 
    stage('Sonarqube') {
         environment {
-            scannerHome = tool 'SonarQubeScanner'
+            scannerHome = tool 'sonarqube'
         }
             withSonarQubeEnv('sonarqube') {
                 sh "${scannerHome}/bin/sonar-scanner"
