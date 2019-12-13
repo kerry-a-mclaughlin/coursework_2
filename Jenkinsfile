@@ -1,32 +1,25 @@
 node {
-   def remote = [:]
-    remote.name = 'vm'
-    remote.host = '40.68.87.60'
-    remote.user = 'azureuser'
-    remote.password = 'Coursework2001'
-    remote.allowAnyHosts = true
-
     def app
+    def remote = [:]
+    remote.name = 'ansible-node'
+    remote.host = '40.68.87.60'
+    remote.user = 'prod'
+    remote.password = 'Password123456'
+    remote.allowAnyHosts = true
 
     stage('Clone repository') {
         checkout scm
-    }
-
-    stage('SonarQube analysis') {
-      def scannerHome = tool 'SonarQubeScanner';
-      withSonarQubeEnv('sonarqube') { // If you have configured more than one global server connection, you can specify its name
-        sh "${scannerHome}/bin/sonar-scanner"
-      }
     }
 
     stage('Build image') {
         app = docker.build("kmclau208/coursework2")
     }
 
-    stage('Test image') {
-        app.inside {
-            sh 'echo "Tests passed"'
-        }
+    stage('SonarQube analysis') {
+      def scannerHome = tool 'SonarQubeScanner';
+      withSonarQubeEnv('sonarqube') {
+        sh "${scannerHome}/bin/sonar-scanner"
+      }
     }
 
     stage('Push image') {
@@ -36,9 +29,9 @@ node {
         }
     }
 
-    stage('Remote SSH') {
-      sshCommand remote: remote, command: "ls -lrt"
-      sshCommand remote: remote, command: "for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done"
-    }
+    stage('ssh command') {
+        sshCommand remote: remote, sudo: true, command: 'whoamI -un'
+      }
+
 }
 
