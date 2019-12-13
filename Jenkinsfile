@@ -12,18 +12,11 @@ node {
         checkout scm
     }
 
-    stage('SonarQube analysis') {
-      withSonarQubeEnv('sonarqube') { // If you have configured more than one global server connection, you can specify its name
-        sh "${scannerHome}/bin/sonar-scanner"
-      }
-    }
-
     stage('Build image') {
         app = docker.build("kmclau208/coursework2")
     }
 
     stage('SonarQube analysis') {
-      def scannerHome = tool 'SonarQubeScanner';
       withSonarQubeEnv('sonarqube') {
         sh "${scannerHome}/bin/sonar-scanner"
       }
