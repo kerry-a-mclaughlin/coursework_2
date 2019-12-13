@@ -1,12 +1,12 @@
 node {
-       def scannerHome = tool 'SonarQube';
-       def app
-       def remote = [:]
-       remote.name = 'master'
-       remote.host = '13.82.54.23'
-       remote.user = 'master'
-       remote.password = '@Coursework2001'
-       remote.allowAnyHosts = true
+   def scannerHome = tool 'SonarQube';
+   def app
+   def remote = [:]
+   remote.name = 'master'
+   remote.host = '13.82.54.23'
+   remote.user = 'master'
+   remote.password = '@Coursework2001'
+   remote.allowAnyHosts = true
 
     stage('Clone repository') {
         checkout scm
