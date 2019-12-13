@@ -1,5 +1,5 @@
 node {
-   def scannerHome = tool 'SonarQube';
+   def scannerHome = tool 'SonarQubeScanner';
    def app
    def remote = [:]
    remote.name = 'master'
@@ -13,7 +13,6 @@ node {
     }
 
     stage('SonarQube analysis') {
-      def scannerHome = tool 'SonarQubeScanner';
       withSonarQubeEnv('sonarqube') { // If you have configured more than one global server connection, you can specify its name
         sh "${scannerHome}/bin/sonar-scanner"
       }
