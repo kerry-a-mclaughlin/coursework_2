@@ -30,6 +30,6 @@ node {
     }
 
     stage('Deploying build To Kubernetes') {
-        sshCommand remote: remote, sudo: false, command: 'ansible-playbook /home/master/ansible/vm_startKubernetes.yml -i /home/master/ansible/hosts'
+        sshCommand remote: remote, sudo: false, command: 'ansible-playbook /home/master/ansible/vm_kubernetes.yml -i /home/master/ansible/hosts'
     }
 }
