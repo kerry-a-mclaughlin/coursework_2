@@ -1,0 +1,13 @@
+- name: Kubernetes
+  hosts: azure
+  user: azureuser
+
+  tasks:  
+    - name: Create Kubernetes deployment
+      command: sudo kubectl create deployment coursework2 --image=https://hub.docker.com/repository/docker/kmclau208/coursework2:55
+
+    - name: Create Kubernetes service
+      command: sudo kubectl expose deployment/coursework2 --type="NodePort" --port 8080 --name node-port-service
+
+    - name: Scale deployment to 4 nodes
+      command: sudo kubectl scale deployment/coursework2 --replicas=4 
