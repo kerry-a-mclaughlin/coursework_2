@@ -30,6 +30,6 @@ node {
     }
 
     stage('Deploying build To Kubernetes') {
-        sshCommand remote: remote, sudo: false, command: 'whoami -un'
+        sshCommand remote: remote, sudo: false, command: 'whoami'
     }
 }
