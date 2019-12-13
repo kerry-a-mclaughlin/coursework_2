@@ -1,7 +1,7 @@
 node {
     def app
     def remote = [:]
-    remote.name = 'ansible-node'
+    remote.name = 'master'
     remote.host = '40.68.87.60'
     remote.user = 'prod'
     remote.password = 'Password123456'
@@ -36,8 +36,7 @@ node {
         }
     }
 
-
-    stage('ssh command') {
-        sshCommand remote: remote, sudo: true, command: 'whoamI -un'
-      }
+    stage('Deploy New Build To Kubernetes') {
+        sshCommand remote: remote, sudo: false, command: 'ansible-playbook /home/master/Git/coursework_2/ansible/vm_startKubernetes.yml -i /home/master/Git/coursework_2/ansible/hosts'
+    }
 }
