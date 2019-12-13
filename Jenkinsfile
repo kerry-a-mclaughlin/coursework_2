@@ -8,11 +8,11 @@ node {
    remote.password = '@Coursework2001'
    remote.allowAnyHosts = true
 
-    stage('Clone repository') {
+    stage('Cloning repository') {
         checkout scm
     }
 
-    stage('Build image') {
+    stage('Building image') {
         app = docker.build("kmclau208/coursework2")
     }
 
@@ -22,14 +22,14 @@ node {
       }
     }
 
-    stage('Push image') {
+    stage('Pushing image to DockerHub') {
         docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
     }
 
-    stage('Deploy New Build To Kubernetes') {
-        sshCommand remote: remote, sudo: false, command: 'ansible-playbook /home/master/Git/coursework_2/ansible/vm_startKubernetes.yml -i /home/master/Git/coursework_2/ansible/hosts'
+    stage('Deploying build To Kubernetes') {
+        sshCommand remote: remote, sudo: false, command: 'ansible-playbook /home/master/ansible/vm_startKubernetes.yml -i /home/master/ansible/hosts'
     }
 }
